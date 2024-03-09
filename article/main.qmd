@@ -1,6 +1,16 @@
 ---
-title: "A title"
-author: "Authors"
+title: "Palaeontological evidence shows long-term declines in Red Sea coral colony size"
+author: 
+  - "---"
+  - Lewis A. Jones^1^,  Angelina Ivkić^2^, Bernhard M. Riegl^3^, Andreas Kroh^4^, Abbas Mansour^5^, Mohamed Osman^5^, Mohamed Hassan^5^, and Martin Zuschin^2^
+  - "---"
+  - "^1^Centro de Investigación Mariña, Departamento de Ecoloxía e Bioloxía Animal, Universidade de Vigo, 36310 Vigo, Spain"
+  - "^2^Department of Palaeontology, University of Vienna, Josef-Holaubek-Platz 2, 1090 Vienna, Austria"
+  - "^3^Department of Marine and Environmental Sciences, Nova Southeastern University, 33004 Hollywood, Florida, USA"
+  - "^4^Natural History Museum Vienna, Department of Geology & Palaeontology, 1010, Vienna, Austria"
+  - "^5^South Valley University, Department of Geology, Qena, Egypt"
+  - "---"
+  - "**Corresponding author:** LewisAlan.Jones@uvigo.es"
 abstract: "Abstract"
 format:
   docx:
@@ -8,17 +18,53 @@ format:
     fig-dpi: 600
 bibliography: references.bib
 csl: reference-style.csl
+knitr:
+  opts_chunk:
+    out.width: "100%"
 ---
 
 # Keywords
+Conservation palaeobiology, ecosystem baselines, coral reef, Last Interglacial, MIS5e, scleractinia
 
 # Introduction
 
-# Materials & Methods
+Here, we document long-term shifts in the colony size structure of coral populations along the Egyptian coastline of the Red Sea. To do so, we make quantitative comparisons between colony size structure estimates from surveys conducted between XXX--XXX with palaeontological baselines from the Last Interglacial (125,000 years ago). We examine changes in colony size structure between taxa and within two reef zones--the reef edge (0--3 m) and shallow reef slope (3--6 m)--by evaluating changes in the median and 5^th^ and 95^th^ percentiles of colony size on a logarithmic scale.
+
+# Materials and methods
+
+## Survey locations and protocol
+
+Modern (survey years: 1988, 1989, 1997) and Last Interglacial (~125,000 years ago) coral communities and their colony size structure were assessed along the Egyptian coastline of the Red Sea between XXX and XXX, with a total of XXX modern and XXX Last Interglacial survey localities [@fig-map]. To do so, we carried out XXX m-long line-intercept transects [REFs] with XXX replications in the reef edge (0--3 m) and the shallow reef slope (3--6 m). While we would have preferred to expand the depth of our study, eustatic sea level during the Last Interglacial was less than 10 m above current levels [REFs], resulting in only the shallowest reef zones being preserved and readily accessible for study. The length of the intercept of each physically discrete colony was measured to the nearest cm using the transect tape. Due to the challenging nature of identifying coral colonies to species level based on fossil material, we identified all colonies to genus level and used this taxonomic rank for our subsequent analyses. Therefore, the size distributions presented here represent the size distribution within the genus taxonomic level, but they may not accurately reflect the distributions of individual species within that genus. Nevertheless, our study does not diverge from previous work, including many neontological studies which conduct analyses at the genus taxonomic level [REFs], or even using morpho-functional groups [REFs]. All transects were recorded and evaluated by the same author
+(AI), eliminating observer-specific identification or measurement
+variability. A total of XXX intercepts were recorded (XXX modern and XXX Last Interglacial) across all survey locations, with XXX genera identified.
+
+```{r}
+#| label: fig-map
+#| echo: false
+#| fig-cap: "Map of survey locations in the Red Sea. The map shows the locations of the studied modern (XXX circles) and Last Interglacial (XXX circles) coral reefs along the Egyptian Red Sea coastline."
+knitr::include_graphics(path = "figures/map.png")
+```
+
+## Statistical analyses
+
 
 # Results
 
+## Taxonomic shifts in colony size
+
+## Reef zone shifts in colony size
+
+
 # Discussion
+
+- Summary of results
+- Support for other studies
+- Baselines
+- Caveats
+  - Proxy for colony size
+  - taphonomy/fossil bias
+
+
 
 # Conclusion
 

@@ -1,0 +1,29 @@
+---
+title: "Data Preparation"
+subtitle: "Palaeontological evidence of long-term shifts in Red Sea coral colony size structure"
+author: 
+  - Lewis A. Jones
+  - Angelina Ivkić
+  - Andreas Kroh
+  - Abbas Mansour
+  - Mohamed Osman
+  - Mohamed Hassan
+  - Martin Zuschin
+institute: 
+  - Centro de Investigación Mariña, Departamento de Ecoloxía e Bioloxía Animal, Universidade de Vigo, 36310 Vigo, Spain
+  - Department of Palaeontology, University of Vienna, Josef-Holaubek-Platz 2, 1090 Vienna, Austria
+  - Natural History Museum Vienna, Department of Geology & Palaeontology, 1010, Vienna, Austria
+  - South Valley University, Department of Geology, Qena, Egypt
+  - South Valley University, Department of Geology, Qena, Egypt
+  - South Valley University, Department of Geology, Qena, Egypt
+  - Department of Palaeontology, University of Vienna, Josef-Holaubek-Platz 2, 1090 Vienna, Austria
+date: today
+toc: true
+format:
+  html:
+    html-math-method: katex
+    code-tools: true
+    self-contained: true
+execute:
+  warning: false
+---

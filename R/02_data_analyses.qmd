@@ -1,0 +1,226 @@
+---
+title: "Data Analyses"
+subtitle: "Palaeontological evidence shows long-term declines in Red Sea coral colony size"
+author: 
+  - Lewis A. Jones
+  - Angelina Ivkić
+  - Andreas Kroh
+  - Abbas Mansour
+  - Mohamed Osman
+  - Mohamed Hassan
+  - Martin Zuschin
+institute: 
+  - Centro de Investigación Mariña, Departamento de Ecoloxía e Bioloxía Animal, Universidade de Vigo, 36310 Vigo, Spain
+  - Department of Palaeontology, University of Vienna, Josef-Holaubek-Platz 2, 1090 Vienna, Austria
+  - Natural History Museum Vienna, Department of Geology & Palaeontology, 1010, Vienna, Austria
+  - South Valley University, Department of Geology, Qena, Egypt
+  - South Valley University, Department of Geology, Qena, Egypt
+  - South Valley University, Department of Geology, Qena, Egypt
+  - Department of Palaeontology, University of Vienna, Josef-Holaubek-Platz 2, 1090 Vienna, Austria
+date: today
+toc: true
+format:
+  html:
+    html-math-method: katex
+    code-tools: true
+    self-contained: true
+knitr:
+  opts_chunk:
+    out.width: "100%"
+    out.height: "100%"
+    fig.path: ../article/figures/
+execute:
+  warning: false
+---
+
+## Setup
+
+Load relevant packages and set default options.
+
+```{r, setup, include=TRUE}
+# Package for data handling/manipulation
+library(tidyverse)
+# Package for colour palettes
+library(MetBrewer)
+# Package for generic plotting
+library(ggplot2)
+# Package for adding scale bar and north arrow
+library(ggspatial)
+# Package for text labels
+library(ggrepel)
+# Package for combining plots
+library(cowplot)
+# Packages for getting map data
+library(rnaturalearth)
+library(rnaturalearthdata)
+# Set root directory
+knitr::opts_knit$set(root.dir = '..')
+```
+
+## Study sites
+
+Generate a map of modern and Last Interglacial fossil sites.
+
+
+
+```{r, map}
+#| fig-height: 7
+# Read modern data
+modern <- read.csv("data-raw/corals_egypt.csv")
+# Read fossil data
+fossil <- read.csv("data-raw/corals_egypt.csv")
+# Get unique sites
+modern_sites <- unique(modern[, c("lng", "lat", "site")])
+modern_sites$age <- "Modern"
+fossil_sites <- unique(fossil[, c("lng", "lat", "site")])
+fossil_sites$age <- "Last Interglacial"
+# Add ages
+sites <- rbind.data.frame(modern_sites, fossil_sites)
+# Define factor levels
+sites$age <- factor(sites$age, levels = c("Modern", "Last Interglacial"))
+# World sf
+world <- ne_countries(scale = "large", continent = "Africa",
+                      returnclass = "sf")
+# Define countries for plotting
+countries <- c("egypt", "saudi arabia", "jordan", "isreal", "syria",
+               "lebanon", "iraq", "iran", "kuwait")
+# Get country sfs
+countries <- ne_countries(scale = "large", country = countries,
+                          returnclass = "sf")
+
+# Define colours for plotting
+land <- "darkgrey"
+sea <- "aliceblue"
+
+# Make map of Africa
+africa <- ggplot(data = world) +
+  geom_sf(colour = land, fill = land) +
+  geom_sf(data = countries, colour = land, fill = land) +
+  geom_rect(aes(xmin = 33, xmax = 38, ymin = 24, ymax = 28),
+            fill = NA, colour = "black", linewidth = 0.3) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  coord_sf(xlim = c(-19, 50)) +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = sea),
+        plot.background = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text = element_blank(),
+        axis.title = element_blank(),
+        panel.grid = element_blank())
+
+# Make locality map
+localities <- ggplot(data = countries) +
+  geom_sf(colour = "black", fill = land) +
+  geom_point(data = sites, aes(x = lng, y = lat, fill = age),
+             shape = 21, size = 4,
+             colour = "black", alpha = 0.75) +
+  geom_text_repel(data = sites, aes(x = lng, y = lat, label = site,
+                                    colour = age),
+                  size = 3, min.segment.length = unit(0, 'cm'),
+                  box.padding = 1,
+                  nudge_x = 0.5) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  # Add colour scale
+  scale_colour_met_d("Hiroshige") +
+  # Add fill scale
+  scale_fill_met_d("Hiroshige") +
+  xlab("Longitude (º)") +
+  ylab("Latitude (º)") +
+  annotation_scale(text_cex = 1) +
+  annotation_north_arrow(location = "bl",
+                         pad_y = unit(1, "cm"),
+                         height = unit(2, "cm"), width = unit(2, "cm")) +
+  coord_sf(xlim = c(33, 38), ylim = c(24, 28)) +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = sea),
+        plot.background = element_blank(),
+        axis.title = element_text(size = 16),
+        axis.text = element_text(size = 12),
+        panel.grid = element_blank(),
+        legend.position = "top",
+        legend.title = element_blank())
+
+# Create inset
+map <- ggdraw(localities) +
+  draw_plot(
+    {
+      africa
+    },
+    x = 0.748, y = 0.6385,
+    width = 0.3, height = 0.25
+  )
+map
+```
+
+Load Last Interglacial transect data and filter to intercepts identified to genus or species level. Subsequently, calculate the median intercept and 5^th^ and 95^th^ percentiles for each taxa, as well as the number of intercepts. Finally, filter the dataset to retain only taxa with 5 or more intercepts.
+
+```{r, prepare-data}
+# Plot density distributions
+fossil %<>% 
+  # Filter to Scleractinia
+  filter(order == "Scleractinia") %>%
+  # Retain intercepts IDed to genus/species-level
+  filter(rank == "genus" | rank == "species") %>%
+  # Retain genus and intercept length
+  select("genus", "length") %>% 
+  # Group by genus
+  group_by(genus) %>% 
+  # Calculate median per genus
+  mutate(lower = quantile(length, probs = 0.05),
+         average = median(length),
+         upper = quantile(length, probs = 0.95)) %>%
+  # Count number of intercepts per genus
+  add_count() %>% 
+  # Add age
+  add_column(age = "Last Interglacial") %>%
+  # Retain taxa with 5 or more intercepts
+  filter(n >= 5)
+```
+
+Generate a density plot of the distribution of coral colony sizes for each genus and time.
+
+```{r, taxonomic-plot}
+#| fig-height: 7
+# Plot data
+ggplot(data = fossil, aes(x = length, y = ..count..)) +
+  # Plot density
+  geom_density(stat = "density", aes(fill = age, colour = age), alpha = 0.6) +
+  # Add vertical line of median value
+  geom_vline(aes(xintercept = average, colour = age), linetype = 2) +
+  # Add points of the median value
+  geom_point(aes(x = average, y = n / 2, fill = age), colour = "black", shape = 21) +
+  # Transform x-axis to log10
+  scale_x_continuous(trans = "log10", limits = c(1, 600)) +
+  # Add colour scale
+  scale_colour_met_d("Hiroshige") +
+  # Add fill scale
+  scale_fill_met_d("Hiroshige") +
+  # Y-axis lavel
+  ylab(lab = "number of intercepts") +
+  # X-axis label
+  xlab(lab = "colony size (cm)") +
+  # Create facets across taxa with free scales
+  facet_wrap(~genus, ncol = 4, scales = "free") +
+  # Set themes
+  theme_bw() +
+  theme(
+    legend.title = element_blank(),
+    legend.position = "top"
+  )
+```
+
+
+# Number of intercepts per species
+
+# Coral colony size frequency distributions
+Visualise size distributions or cumulative frequency plots 
+Kolmogorov–Simirnov (KS) comparison of distributions.
+
+# Box-plot of size distributions between genera
+
+# Box plot between reef edge and reef slope modern/LIG
+
+
+Geometric mean... log data

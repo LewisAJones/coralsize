@@ -20,13 +20,17 @@ bibliography: references.bib
 csl: reference-style.csl
 knitr:
   opts_chunk:
-    out.width: "100%"
+    out.width: "80%"
 ---
 
 # Keywords
 Conservation palaeobiology, ecosystem baselines, coral reef, Last Interglacial, MIS5e, scleractinia
 
 # Introduction
+
+Tropical coral reef ecosystems support the greatest biodiversity of marine organisms on Earth, and are frequently referred to as the rainforests of the oceans [REFs]. Reef-building corals are essential for maintaining the biodiversity of coral reef ecosystems by contributing to the physical structure and stability of coral reef ecosystems [REFs]. Specifically, the variety of sizes and growth forms (e.g. branching, plating, massive) of reef-building corals promotes the development of complex three-dimensional habitats within the reef that provides shelter [REF], food [REF], and breeding sites [REF] for a diverse array of reef-associated organisms. This structural complexity supports biodiversity by generating a variety of niches for organisms of various sizes, behaviours, and ecological requirements [REF]. Unfortunately, recent work has shown prominent declines in the absolute abundance of large colonies and coral growth rates [REFs], as well as potential evidence of increasing community homogenisation [REFs]. Such changes have prominent consequences for the colony size structure of coral populations, with potentially large impacts on the structural complexity of coral reef ecosystems and the vast array of habitats they provide.
+
+The fossil record provides the opportunity to assess colony size structure of coral populations prior to the influence of anthropogenic impacts at both local (e.g. pollution, destructive fishing practices) and global scales (e.g. global warming)
 
 Here, we document long-term shifts in the colony size structure of coral populations along the Egyptian coastline of the Red Sea. To do so, we make quantitative comparisons between colony size structure estimates from surveys conducted between XXX--XXX with palaeontological baselines from the Last Interglacial (125,000 years ago). We examine changes in colony size structure between taxa and within two reef zones--the reef edge (0--3 m) and shallow reef slope (3--6 m)--by evaluating changes in the median and 5^th^ and 95^th^ percentiles of colony size on a logarithmic scale.
 
@@ -45,13 +49,27 @@ knitr::include_graphics(path = "figures/map.png")
 
 ## Statistical analyses
 
-To assess shifts in colony size structure, we followed previous studies and used colony intercept lengths as a proxy for colony size [REFs]. We examined changes in colony size between the Last Interglacial and the Modern within individual taxa (i.e. pooled between all sites and reef zones), and between the reef edge and shallow reef slope (i.e. pooled between sites, but not reef zones). For our analyses, we focused on the most common taxa present during the Last Interglacial and in the Modern, and retained all taxa with more than 20 intercepts in each dataset. Subsequently, we filtered both datasets to include only taxa present in both intervals. This ensured that a reasonable estimate of colony size distributions could be generated for statistical comparisons. Previous work has demonstrated that frequency distributions of colony sizes typically follow a log-normal distribution [REFs]. We ran Shapiro–Wilk tests on log-transformed intercept lengths to test for log-normality in our data. To summarise shifts in coral colony size-frequency distributions for each taxa we used the first four moments of distributions: central tendency (i.e. the mean, $\mu$), dispersion (i.e. the variance, $\sigma^2^$), skewness (i.e. the asymmetry, $\gamma$), and kurtosis (i.e. the tailedness, $\kappa$). To formally test whether Last Interglacial and Modern coral colony size-frequency distributions differ, we used non-parametric two-sample Kolmogorov-Smirnov tests to compare the cumulative distribution functions (CDFs) of the Last Interglacial and Modern coral colony sizes. In addition, using non-parametric one-sided Mann-Whitney *U* tests, we evaluate whether Modern coral colony sizes for each taxa are significantly smaller than those of the Last Interglacial. Finally, using non-parametric one-sided Mann-Whitney *U* tests, we test whether pooled coral colony sizes within reef zones (i.e. reef edge and shallow reef slope) are significantly smaller in the Modern than they were in the Last Interglacial. A significance level of $\alpha$ = 0.05 was used for all hypothesis tests in this study.
+To assess shifts in colony size structure, we followed previous studies and used colony intercept lengths as a proxy for colony size [REFs]. We examined changes in colony size between the Last Interglacial and the Modern within individual taxa (i.e. pooled between all sites and reef zones), and between the reef edge and shallow reef slope (i.e. pooled between sites, but not reef zones). For our analyses, we focused on the most common taxa present during the Last Interglacial and in the Modern, and retained all taxa with more than 20 intercepts in each dataset. Subsequently, we filtered both datasets to include only taxa present in both intervals. This ensured that a reasonable estimate of colony size distributions could be generated for statistical comparisons. Previous work has demonstrated that frequency distributions of colony sizes typically follow a log-normal distribution [REFs]. We ran Shapiro–Wilk tests on log-transformed intercept lengths to test for log-normality in our data. To summarise shifts in coral colony size-frequency distributions for each taxa we used the first four moments of distributions: central tendency (i.e. the mean, $\mu$), dispersion (i.e. the variance, $\sigma$^2^), skewness (i.e. the asymmetry, $\gamma$), and kurtosis (i.e. the tailedness, $\kappa$). To formally test whether Last Interglacial and Modern coral colony size-frequency distributions differ, we used non-parametric two-sample Kolmogorov-Smirnov tests to compare the cumulative distribution functions (CDFs) of the Last Interglacial and Modern coral colony sizes. In addition, using non-parametric one-sided Mann-Whitney *U* tests, we evaluate whether Modern coral colony sizes for each taxa are significantly smaller than those of the Last Interglacial. Finally, using non-parametric one-sided Mann-Whitney *U* tests, we test whether pooled coral colony sizes within reef zones (i.e. reef edge and shallow reef slope) are significantly smaller in the Modern than they were in the Last Interglacial. A significance level of $\alpha$ = 0.05 was used for all hypothesis tests in this study.
 
 # Results
 
 ## Shifts in taxonomic size-frequency distributions
 
+```{r}
+#| label: fig-taxa
+#| echo: false
+#| fig-cap: "Shifts in colony size structure of common coral taxa along the Egyptian coastline of the Red Sea. XXX density curves depict the coral size structure of common coral taxa during the Last Interglacial (125,000 years ago). XXX density curves depict the coral size structure of common coral taxa during the Present (survey years: 1988, 1989, 1997). The XXX point and segment line depict the mean colony size for each taxa during the Last Interglacial, while the XXX point and segment line depict the mean colony size for each taxa during the Present."
+knitr::include_graphics(path = "figures/size-distribution.png")
+```
+
 ## Shifts in reef zone size-frequency distributions
+
+```{r}
+#| label: fig-environment
+#| echo: false
+#| fig-cap: "Shifts in colony size structure within the reef edge and reef slope of common coral taxa along the Egyptian coastline of the Red Sea. The first column depicts data from the reef edge (0--3 m), and the second the shallow reef slope (3--6 m). XXX density curves depict the coral size structure of common coral taxa during the Last Interglacial (125,000 years ago). XXX density curves depict the coral size structure of common coral taxa during the Present (survey years: 1988, 1989, 1997). The XXX point and segment line depict the mean colony size for each taxa during the Last Interglacial, while the XXX point and segment line depict the mean colony size for each taxa during the Present."
+knitr::include_graphics(path = "figures/size-distribution-environment.png")
+```
 
 # Discussion
 

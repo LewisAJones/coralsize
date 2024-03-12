@@ -21,6 +21,7 @@ library(ggrepel)
 library(ggpp)
 # Package for combining plots
 library(cowplot)
+library(ggpubr)
 # Packages for getting map data
 library(rnaturalearth)
 library(rnaturalearthdata)
@@ -111,8 +112,8 @@ rm(list = ls())
 # Size-frequency distributions ------------------------------------------
 # Load data
 df <- read.csv("./data/intercepts.csv")
-# Generate plot
-p <- ggplot(data = df, aes(x = length, y = ..count..)) +
+# Generate taxa plot
+p <- ggplot(data = df, aes(x = length, y = after_stat(count))) +
   # Plot density
   #geom_histogram(aes(fill = age, colour = age), position="identity", alpha = 0.6) +
   geom_density(stat = "density", aes(fill = age, colour = age), alpha = 0.6) +
@@ -121,7 +122,7 @@ p <- ggplot(data = df, aes(x = length, y = ..count..)) +
   # Add points of the median value
   #geom_point(aes(x = average, y = n / 2, fill = age), colour = "black", shape = 21) +
   # Transform x-axis to log10
-  scale_x_continuous(trans = "log10", limits = c(1, 600)) +
+  scale_x_continuous(trans = "log10", limits = c(1, 650)) +
   # Add colour scale
   scale_colour_met_d("Hiroshige") +
   # Add fill scale
@@ -136,12 +137,85 @@ p <- ggplot(data = df, aes(x = length, y = ..count..)) +
   theme_bw() +
   theme(
     legend.title = element_blank(),
-    legend.position = "top"
+    legend.position = "top",
+    strip.text = element_text(face = "italic")
   )
 
 # Save plot
 ggsave(filename = "./article/figures/size-distribution.png", plot = p,
        width = 200, height = 200, units = "mm", dpi = 300,
+       bg = "white")
+
+# Generate environment plot
+edge <- df[which(df$environment == "Reef edge"), ]
+slope <- df[which(df$environment == "Reef slope"), ]
+
+p1 <- ggplot(data = edge, aes(x = length, y = after_stat(count))) +
+  # Plot density
+  #geom_histogram(aes(fill = age, colour = age), position="identity", alpha = 0.6) +
+  geom_density(stat = "density", aes(fill = age, colour = age), alpha = 0.6) +
+  # Add vertical line of median value
+  #geom_vline(aes(xintercept = average, colour = age), linetype = 2) +
+  # Add points of the median value
+  #geom_point(aes(x = average, y = n / 2, fill = age), colour = "black", shape = 21) +
+  # Transform x-axis to log10
+  scale_x_continuous(trans = "log10", limits = c(1, 650)) +
+  # Add colour scale
+  scale_colour_met_d("Hiroshige") +
+  # Add fill scale
+  scale_fill_met_d("Hiroshige") +
+  # Y-axis lavel
+  ylab(lab = "number of intercepts") +
+  # X-axis label
+  xlab(lab = "colony size (cm)") +
+  # Add title
+  ggtitle(label = "(a) Reef edge") +
+  # Create facets across taxa with free scales
+  facet_wrap(~genus, ncol = 2, scales = "free") +
+  # Set themes
+  theme_bw() +
+  theme(
+    legend.title = element_blank(),
+    legend.position = "top",
+    strip.text = element_text(face = "italic"),
+    aspect.ratio = 0.65
+  )
+
+p2 <- ggplot(data = slope, aes(x = length, y = after_stat(count))) +
+  # Plot density
+  #geom_histogram(aes(fill = age, colour = age), position="identity", alpha = 0.6) +
+  geom_density(stat = "density", aes(fill = age, colour = age), alpha = 0.6) +
+  # Add vertical line of median value
+  #geom_vline(aes(xintercept = average, colour = age), linetype = 2) +
+  # Add points of the median value
+  #geom_point(aes(x = average, y = n / 2, fill = age), colour = "black", shape = 21) +
+  # Transform x-axis to log10
+  scale_x_continuous(trans = "log10", limits = c(1, 650)) +
+  # Add colour scale
+  scale_colour_met_d("Hiroshige") +
+  # Add fill scale
+  scale_fill_met_d("Hiroshige") +
+  # Y-axis lavel
+  ylab(lab = "number of intercepts") +
+  # X-axis label
+  xlab(lab = "colony size (cm)") +
+  # Add title
+  ggtitle(label = "(b) Reef slope") +
+  # Create facets across taxa with free scales
+  facet_wrap(~genus, ncol = 2, scales = "free") +
+  # Set themes
+  theme_bw() +
+  theme(
+    legend.title = element_blank(),
+    legend.position = "top",
+    strip.text = element_text(face = "italic"),
+    aspect.ratio = 0.65
+  )
+
+p <- ggarrange(p1, p2, ncol = 2, common.legend = TRUE)
+# Save plot
+ggsave(filename = "./article/figures/size-distribution-environment.png", plot = p,
+       width = 200, height = 300, units = "mm", dpi = 300,
        bg = "white")
 
 # Clean environment

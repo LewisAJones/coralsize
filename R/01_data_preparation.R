@@ -48,7 +48,7 @@ df %<>%
   # Retain intercepts IDed to genus/species-level
   filter(rank == "genus" | rank == "species") %>%
   # Retain genus and intercept length
-  select("genus", "length", "age") %>%
+  select("genus", "length", "age", "environment") %>%
   # Group by genus
   group_by(genus) %>%
   # Count number of intercepts per genus
